@@ -22,22 +22,23 @@ En este práctico vamos a correr la revisión de unos reads secuenciados mediant
   3. Predicción:
 
 Luego, realizaremos la predicción de [CDS](https://www.uniprot.org/help/cds_protein_definition) a partir de los ensambles con la herramienta:
-- [Glimmer3.02](http://ccb.jhu.edu/software/glimmer/index.shtml)
+- [Prodigal](https://github.com/hyattpd/prodigal/wiki)
 
-Finalmente, a los péptidos predichos con Glimmer, se les asignará función putativa con el programa [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) y la base de datos [Swiss-Prot](https://www.uniprot.org/statistics/Swiss-Prot).
+Finalmente, a los péptidos predichos con Prodigal, se les asignará función putativa con el programa [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) y la base de datos [Swiss-Prot](https://www.uniprot.org/statistics/Swiss-Prot).
 
 #### Input de datos:
 
- Cada grupo tendrá dos sets de lecturas de secuenciación, correspondientes a un genoma desconocido, el cual tendrán que inferir con los análisis.
+ Cada grupo tendrá dos conjuntos de lecturas de secuenciación, correspondientes a un genoma desconocido, el cual tendrán que inferir con los análisis.
 
-- Over: [Librería Overlapping](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2336810/) (Inserto:180 bp, Reads Length:100 bp) tiene un sobrelape entre el read forward y el read reverse, dado que el tamaño del inserto es menor que el de la suma del par de reads.
+- il_1 e il_2: [Librería Paired End](https://www.illumina.com/science/technology/next-generation-sequencing/plan-experiments/paired-end-vs-single-read.html).
 
-- Jumping: [Librería Jumping](https://en.wikipedia.org/wiki/Jumping_library#Paired-end_sequencing) (Inserto: 3000 bp,Reads Length: 100 bp) se utilizan para sobrepasar repeticiones y generar scaffolds en un ensamble.
+- Pacbio: [Secuencias Pacbio](https://www.pacb.com/products-and-services/sequel-system/) Utilizaremos secuencias largas para ensamblar con Canu.
  
 ## Objetivos del Práctico: 
 
-- Familiarizarse con los conceptos de ensamble y anotación.
-- Conocer el funcionamiento de herramientas bioinformáticas de ensamble y anotación.
+- Familiarizarse con los conceptos de ensamble, prediccón y anotación.
+- Conocer el funcionamiento de herramientas bioinformáticas de ensamble, predicción y anotación.
+- Utilizar los servidores de blast.
 - Adquirir práctica en entorno Unix. 
 
 
@@ -45,79 +46,55 @@ Finalmente, a los péptidos predichos con Glimmer, se les asignará función put
 
 Conectarse al servidor.
 
-Debido a que los cálculos que realizaremos en este práctico requieren un poder de cómputo moderado, nos conectaremos a uno de los servidores de [Mathomics](http://www.mathomics.cl). Si están en `Linux/MacOS` o `Windows 10`, puede utilizar la terminal (consola), en (Windows10 en el [Símbolo del sistema](https://es.wikipedia.org/wiki/S%C3%ADmbolo_del_sistema) (`cmd`).
+Debido a que los cálculos que realizaremos en este práctico requieren un poder de cómputo moderado, nos conectaremos a un servidor privado. 
+Si están en `Linux/MacOS` o `Windows 10`, puede utilizar la terminal (consola), en (Windows10 en el [Símbolo del sistema](https://es.wikipedia.org/wiki/S%C3%ADmbolo_del_sistema) (`cmd`).
 
 
 Una vez abierta la terminal, cada grupo debe escribir lo siguiente:
 
-	 ssh  usuario@servidor
+	 ssh  usuarioN@servidor
 
 Si están en Windows (anterior a Windows 10) deben instalar un programa llamado [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html). 
 
 
-Las credenciales se les entregaran en la pizarra. 
+Las credenciales ya fueron entregadas. 
 En el nombre de usuario y la contraseña, la `N` debe
 ser reemplazada por el número del grupo que fue asignado.
 
 #### Nombre de las carpetas:
 
-Al conectarnos al servidor, entramos directamente al directorio de trabajo.
+Al conectarnos al servidor, entramos directamente al directorio home.
+De acá nos tendremos que mover a nuestra carpeta de trabajo donde estan alojadas las secuencias:
+
+	cd /mnt/md0/data4BT/btN
+
+Reemplazar N por el número de su grupo.
+
 En este directorio están los archivos de lecturas de secuenciación que se le
 asigno a cada grupo. 
+
 Para poder ver estos archivos debemos escribir lo siguiente:
 
 	ls
+Ahora, sobre cada archivo de secuencia debera ejecutar el siguiente comando:
+
+	fastqc -t 4 nombre_archivo.fastq
+	
+Donde `nombre_archivo` corresponde a un archivo de secuenciación.
+  
 
 ## Ensamble de Genomas:
 
-### Celera - wgs-assembler - Canu
+### Canu la evolución de Celera - wgs-assembler. 
 
 [Celera](http://wgs-assembler.sourceforge.net/wiki/index.php?title=Main_Page) es un ensamblador que utiliza [OLC](https://www.ncbi.nlm.nih.gov/pubmed/22184334). Consta de una fase de corrección de lecturas, una de sobrelape, de generación de contigs y finalmente de scaffolding. 
 
-Antes de correr `Celera`, necesitamos generar los archivos de entrada y configuración.
+Fue el encargado de ensamblar proyectos emblematicos como el genoma humano, actualmente como su sitio lo indica, ha sido descontinuado y reemplazado por [Canu](https://canu.readthedocs.io/en/latest/), Canu ha sido diseñado para ensamblar lecturas que tienen mucho ruido.
 
-Archivos frg:
-
-`Celera` no recibe directamente archivos [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) como input, necesita un archivo del tipo [fragmentos](http://wgs-assembler.sourceforge.net/wiki/index.php/FRG_Files) , el cual contiene la descripción de las lecturas a ensamblar. 
-
-Existe un comando en `Celera` que nos permite hacer la transformación de FASTQ a fragmentos `frg` denominado `fastqToCA` (fastq to Celera Assembler, [link a fastqToCA](http://wgs-assembler.sourceforge.net/wiki/index.php/FastqToCA)).
-
-	fastqToCA -insertsize 180 18 -libraryname over -type illumina -technology illumina -mates  gN.over.A.fastq,gN.over.B.fastq > gN.over.frg
-
-Generar uno para la librería Jump:
-
-	fastqToCA -insertsize 3000 300 -libraryname jump -type illumina -technology illumina -mates  gN.jump3kb.A.fastq,gN.jump3kb.B.fastq > gN.jump3kb.frg
-
-
-Generar archivos de configuración:
-	
-Además de los archivos de fragmentos, `Celera` necesita un archivo con la
-configuración del ensamble (Parámetros). Para crear este archivo ejecutamos:
-
-		vim celera.specf
-
-Aparecerá un editor de texto ([Vim](https://www.vim.org/): Vi Improved, Vi: Visual). Presionamos la tecla “i”
-(insert text) y escribimos lo siguiente:
-
-		ovlHashBits=23
-		ovlHashBlockLength=30000000
-		ovlRefBlockSize=7630000
-		frgCorrBatchSize= 1000000
-		frgCorrThreads= 4
-		/home/dbioN/gN.over.frg
-		/home/dbioN/gN.jump3kb.frg
-	
-
-Para guardar el archivo presionamos la tecla `Esc` (salir del modo insertar texto,
-nos pondrá en modo comandos) , luego la tecla `:` (permite escribir comandos) y
-finalmente escribimos `wq` (w: write, q:quit ) y presionamos `Enter` (Ejecutar)
-
-
-Una lista completa de las opciones de `Celera` las puede encontrar [acá](http://wgs-assembler.sourceforge.net/wiki/index.php/RunCA#Global_Options)
 
 #### Ensamblar las lecturas:
 
-Debido a que el proceso de ensamblar lecturas puede tomar un tiempo prolongado,
+Debido a que el proceso de ensamblar lecturas utilizando OLC puede tomar un tiempo prolongado,
 ejecutar el comando de ensamble de la manera habitual es inconveniente, ya que si
 cerramos la ventana de la consola, el proceso terminará también, por ende,
 tendríamos que esperar que el ensamble terminara para cerrar la consola. En el caso
@@ -125,12 +102,12 @@ de que nos desconectaramos de internet/red, perderíamos lo que llevamos
 ejecutando. Una solución a este problema es el comando [screen](https://linux.die.net/man/1/screen).
 
 
-		screen -S gN_celera
+		screen -S btN_canu
 
-Luego, Ejecutamos el comando [runCA](http://wgs-assembler.sourceforge.net/wiki/index.php/RunCA) de `Celera` para ensamblar:
+Luego, Ejecutamos el comando [canu](https://canu.readthedocs.io/en/latest/tutorial.html) de `Canu` para ensamblar:
 
 
-		runCA -d celera_asm -p primer_ensamble -s celera.specf
+		canu -d canu_btN -p btN genomeSize=5m -pacbio-raw pacbio.fastq
 
 
 Para cerrar la consola sin matar el proceso, tecleamos `Ctrl`+ `a` + `d`. 
@@ -138,103 +115,69 @@ Para cerrar la consola sin matar el proceso, tecleamos `Ctrl`+ `a` + `d`.
 Si queremos recuperar la consola donde lanzamos el programa 
 escribimos lo siguiente:
 
-		screen -r gN_celera
+		screen -r gN_canu
+		
+		
+Para salir nuevamente tecleamos `Ctrl`+ `a` + `d` 
 
+### SPAdes
 
-### Velvet
+[SPAdes](https://cab.spbu.ru/software/spades/) es un ensamblador de lecturas cortas que utiliza el [grafo de Bruijn](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5531759/).
 
-`Velvet` es un ensamblador de lecturas cortas, por ende, utiliza el [grafo de Bruijn](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5531759/).
+SPAdes se ejecuta relativamente rápido, así que dependiendo de sus lecturas asignaremos los `k`-mers en base al largo de los reads, deben ser menor que el largo e impares.
 
-#### Generar Grafo de Bruijn:
+  
+  
+  	spades -o spades_btN -t 16 -k21,33,43,55,65,77,87,99 -1 il_1.fastq -2 il_fastq --pacbio pacbio.fastq 
+	
 
-El comando para generar el grafo de Bruijn se llama `velveth`. Como input, debemos
-entregarle el nombre de la carpeta donde se guardaran los archivos, el largo del 
-`k-mer` para la construcción del grafo, el tipo de librería que se esta utilizando 
-(en este caso pareadas) y la lista de lecturas a ensamblar.
-
-	velveth velvet_ensamble 31 -shortPaired -fastq -separate gN.jump3kb.A.fastq gN.jump3kb.B.fastq  gN.over.A.fastq gN.over.B.fastq
-
-
-## Obtener los contigs
-
-
-Los contigs son obtenidos resolviendo los maximal unary paths o unitigs en el
-grafo de Bruijn. El concepto de "resolver" unitigs hacer referencia a la búsqueda de [caminos eulerianos](https://es.wikipedia.org/wiki/Ciclo_euleriano) dentro del grafo. El comando de velvet para construir los
-contigs/scaffolds se llama `velvetg`.
-
-	velvetg velvet_ensamble -min_contig_lgth 1000
-
+Donde btN es su grupo.
 
 ### Revisar los ensambles:
 
-Los ensambles generan un archivo de estadísticas. En este archivo podremos ver los
-resultados cuantitativos del ensamble.
+El ensamble de SPAdes si ha seguido el tutorial, debería estar en la carpeta `spades_btN`:
 
-En el caso de Celera el nombre del archivo se encuentra en `celera_asm/9-terminator/primer_ensamble.qc`.
-Para revisarlo puede utilizar [less](https://linux.die.net/man/1/less):
+  entramos a la carpeta del resultado, path absoluto:
+  
+  	cd /mnt/md0/datos4BT/btN/spades_btN
+	
+dentro podremos ubicar un archivo fasta llamado scaffolds, lo abriremos y con la barra de espacio lo recorremos:
 
-		less celera_asm/9-terminator/primer_ensamble.qc
+	less scaffolds.fasta
 
+Apretamos `q` para salir de less.
+	
+  También podemos hacer un `grep` 
 
-En el caso de velvet este documento se encuentra en la carpeta de salida bajo el nombre de `stats.txt`.
+	grep ">" scaffolds.fasta
+	
+o para saber el número de scaffolds 
 
-Para este práctico he desarrollado un [script](https://es.wikipedia.org/wiki/Script) en [perl](https://www.perl.org/) que calcula los stats primarios de un ensamble en base al resultado de los archivos de contigs.
- 
-Para el ensamble de velvet ejecutar:
-
-	make_stats.pl -i velvet_ensamble/contigs.fa
-
-Para el ensamble de celera ejecutar:
-
-	make_stats.pl -i celera_asm/9-terminator/primer_ensamble.scf.fasta
-
-También lo puede ejecutar sobre el archivo de contigs:
-
-	make_stats.pl -i celera_asm/9-terminator/primer_ensamble.ctg.fasta
-
-Existen diferencias?
+	grep -c ">" scaffolds.fasta
 
 
-## Predicción y Anotación
+Podemos hacer lo mismo una vez que haya terminado el ensamblador canu
 
 
-### Predicción de CDS
+Nos dirigimos a `/mnt/md0/datos4BT/btN/canu_btN/btN` 
 
-Antes de poder anotar, necesitamos realizar la predicción de nuestros `CDS` para eso utilizaremos `Glimmer3.02`. 
+	cd /mnt/md0/datos4BT/btN/canu_btN/btN
 
-`Glimmer` se ejecuta para un [FASTA](https://es.wikipedia.org/wiki/Formato_FASTA) que contiene solo una secuencia, es decir, si tenemos más de una secuencia en un `FASTA`, `Glimmer` solo procesaría la primera secuencia. Para resolver, esto he programado un [pipeline](https://en.wikipedia.org/wiki/Pipeline_(computing)) en `perl` que puede ejecutar de la siguiente manera:
+Recuerde reemplazar las N por el número de su grupo.
 
-	pipe2gbk.pl -i velvet_ensamble/contigs.fa -p peptidos_velvet
+dentro podremos ubicar un archivo fasta llamado `btN.contigs.fasta`, lo abriremos y con la barra de espacio lo recorremos:
 
-Para `Celera`:
+	less btN.contigs.fasta
 
-	pipe2gbk.pl -i celera_asm/9-terminator/primer_ensamble.scf.fasta -p peptidos_celera
+Apretamos `q` para salir de less.
+	
+  También podemos hacer un `grep` 
 
-Para cada ensamble obtendrá dos archivos `peptidos_velvet.faa` y `peptidos_velvet.gbk`. Lo mismo para el caso de `celera`. 
+	grep ">" btN.contigs.fasta
+	
+o para saber el número de scaffolds 
 
-Por ahora continuaremos trabajando solo con los péptidos.
+	grep -c ">" btN.contigs.fasta
 
-### Anotación
-
-Como `BLAST` demora en anotar sus péptidos, es necesario que ejecute esta instrucción en un `screen`, puede utilizar alguno de los `screen` anteriores o crear uno nuevo utilizando el comando:
-
-	screen -S blast
-
-En este screen debe ejecutar la instrucción:
-
-	blastp -db /home/dbioA/databases/SWISSPROT/uniprot_sprot.fasta -query peptidos_velvet.faa -out velvet_blast.txt -evalue 1e-5 -num_threads 4
-
-Repetir el mismo comando, pero ahora con los resultados de `celera`.
-
-Nos generará dos archivos: `velvet_blast.txt` y `celera_blast.txt`, ambos contienen los alineamientos en formato raw,
- pero deben ser "parseados" para poder realizar análisis posteriores (Por ejemplo: tener un excel con la anotación),
- para esto he generado un parseador que se llama `blastparser.pl` y esta basado en los módulos [Bio::SearchIO](https://metacpan.org/pod/Bio::SearchIO)
- y [Bio::SeqIO](https://metacpan.org/pod/Bio::SeqIO) de [BioPerl](https://bioperl.org/).
-
-Para obtener los resultados debe direccionar la `salida estándar` a un archivo de la siguiente manera:
-
-	blastparser.pl velvet_blast.txt > parsed_velvet_blast.csv
-
-Debe hacer lo mismo para el archivo de `Celera`.
-
+¿Existen diferencias entre los ensambles?
 
