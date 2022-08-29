@@ -115,7 +115,7 @@ Para cerrar la consola sin matar el proceso, tecleamos `Ctrl`+ `a` + `d`.
 Si queremos recuperar la consola donde lanzamos el programa 
 escribimos lo siguiente:
 
-		screen -r gN_canu
+		screen -r btN_canu
 		
 		
 Para salir nuevamente tecleamos `Ctrl`+ `a` + `d` 
@@ -128,7 +128,7 @@ SPAdes se ejecuta relativamente rápido, así que dependiendo de sus lecturas as
 
   
   
-  	spades -o spades_btN -t 16 -k21,33,43,55,65,77,87,99 -1 il_1.fastq -2 il_fastq --pacbio pacbio.fastq 
+  	spades -o spades_btN -t 16 -k21,33,43,55,65,77,87,99 -1 il_1.fastq -2 il_2.fastq --pacbio pacbio.fastq 
 	
 
 Donde btN es su grupo.
