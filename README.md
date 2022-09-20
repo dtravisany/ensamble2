@@ -128,8 +128,12 @@ Para salir nuevamente tecleamos `Ctrl`+ `a` + `d`
 
 SPAdes se ejecuta relativamente rápido, así que dependiendo de sus lecturas asignaremos los `k`-mers en base al largo de los reads, deben ser menor que el largo e impares.
 
-  
-  
+Crearemos un `screen ` para spades:
+
+		screen -S spades
+		
+ Luego dentro del screen ejecutamos:
+ 
   	spades -o spades_btN -t 16 -k21,33,43,55,65,77,87,99 -1 il_1.fastq -2 il_2.fastq --pacbio pacbio.fastq 
 	
 
