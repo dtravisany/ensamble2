@@ -37,7 +37,7 @@ Finalmente, a los péptidos predichos con Prodigal, se les asignará función pu
 ## Objetivos del Práctico: 
 
 - Familiarizarse con los conceptos de ensamble, prediccón y anotación.
-- Conocer el funcionamiento de herramientas bioinformáticas de ensamble, predicción y anotación.
+- Conocer el funcionamiento de herramientas bioinformáticas de ensamble, predicción y/mnt/biostore/curso/data/ anotación.
 - Utilizar los servidores de blast.
 - Adquirir práctica en entorno Unix. 
 
@@ -68,7 +68,9 @@ De acá nos tendremos que mover a nuestra carpeta de trabajo donde estan alojada
 
 	cd /mnt/biostore/curso/data/
 
-Reemplazar N por el número de su grupo.
+Reemplazar N por el número de su grupo:
+
+	cp * /mnt/biostore/curso/userN/
 
 En este directorio están los archivos de lecturas de secuenciación que se le
 asigno a cada grupo. 
@@ -97,7 +99,7 @@ Fue el encargado de ensamblar proyectos emblematicos como el genoma humano, actu
 Debido a que el proceso de ensamblar lecturas utilizando OLC puede tomar un tiempo prolongado,
 ejecutar el comando de ensamble de la manera habitual es inconveniente, ya que si
 cerramos la ventana de la consola, el proceso terminará también, por ende,
-tendríamos que esperar que el ensamble terminara para cerrar la consola. En el caso
+tendríamos que esperar que el ensamble terminara para cerrar la consola. En el caso/mnt/biostore/curso/data/
 de que nos desconectaramos de internet/red, perderíamos lo que llevamos
 ejecutando. Una solución a este problema es el comando [screen](https://linux.die.net/man/1/screen).
 
@@ -131,7 +133,7 @@ SPAdes se ejecuta relativamente rápido, así que dependiendo de sus lecturas as
   	spades -o spades_btN -t 16 -k21,33,43,55,65,77,87,99 -1 il_1.fastq -2 il_2.fastq --pacbio pacbio.fastq 
 	
 
-Donde btN es su grupo.
+Donde btN es su grupo./mnt/biostore/curso/data/
 
 ### Revisar los ensambles:
 
@@ -159,9 +161,9 @@ o para saber el número de scaffolds
 Podemos hacer lo mismo una vez que haya terminado el ensamblador canu
 
 
-Nos dirigimos a `/mnt/biostore/curso/data/btN/canu_btN/btN` 
+Nos dirigimos a `/mnt/biostore/curso/userN/btN/canu_btN/btN` 
 
-	cd /mnt/biostore/curso/data/canu_btN/btN
+	cd /mnt/biostore/curso/userN/canu_btN/btN
 
 Recuerde reemplazar las N por el número de su grupo.
 
