@@ -137,7 +137,7 @@ Crearemos un `screen ` para spades:
   	spades -o spades_btN -t 16 -k21,33,43,55,65,77,87,99 -1 il_1.fastq -2 il_2.fastq --pacbio pacbio.fastq 
 	
 
-Donde btN es su grupo./mnt/biostore/curso/data/
+Donde N es su grupo /mnt/biostore/curso/userN/
 
 ### Revisar los ensambles:
 
@@ -145,7 +145,7 @@ El ensamble de SPAdes si ha seguido el tutorial, debería estar en la carpeta `s
 
   entramos a la carpeta del resultado, path absoluto:
   
-  	cd /mnt/curso/data/btN/spades_btN
+  	cd /mnt/curso/userN/spades_userN
 	
 dentro podremos ubicar un archivo fasta llamado scaffolds, lo abriremos y con la barra de espacio lo recorremos:
 
