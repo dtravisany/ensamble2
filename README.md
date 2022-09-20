@@ -66,7 +66,7 @@ ser reemplazada por el número del grupo que fue asignado.
 Al conectarnos al servidor, entramos directamente al directorio home.
 De acá nos tendremos que mover a nuestra carpeta de trabajo donde estan alojadas las secuencias:
 
-	cd /mnt/md0/data4BT/btN
+	cd /mnt/biostore/curso/data/
 
 Reemplazar N por el número de su grupo.
 
@@ -139,7 +139,7 @@ El ensamble de SPAdes si ha seguido el tutorial, debería estar en la carpeta `s
 
   entramos a la carpeta del resultado, path absoluto:
   
-  	cd /mnt/md0/data4BT/btN/spades_btN
+  	cd /mnt/curso/data/btN/spades_btN
 	
 dentro podremos ubicar un archivo fasta llamado scaffolds, lo abriremos y con la barra de espacio lo recorremos:
 
@@ -159,9 +159,9 @@ o para saber el número de scaffolds
 Podemos hacer lo mismo una vez que haya terminado el ensamblador canu
 
 
-Nos dirigimos a `/mnt/md0/data4BT/btN/canu_btN/btN` 
+Nos dirigimos a `/mnt/biostore/curso/data/btN/canu_btN/btN` 
 
-	cd /mnt/md0/data4BT/btN/canu_btN/btN
+	cd /mnt/biostore/curso/data/canu_btN/btN
 
 Recuerde reemplazar las N por el número de su grupo.
 
