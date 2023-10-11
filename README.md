@@ -12,19 +12,27 @@ En este práctico vamos a correr la revisión de unos reads secuenciados mediant
 ### Software
  1. Quality Check:
   
-- [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) 
+- [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+- [LongQC](https://github.com/yfukasawa/LongQC)
 
   2. Ensamble:
 
 - [Canu](https://canu.readthedocs.io/en/latest/)
 - [Spades](https://cab.spbu.ru/software/spades/). 
 
+  2.1 Revisión Ensamble:
+-[assembly-stats](https://github.com/sanger-pathogens/assembly-stats)
+
   3. Predicción:
 
 Luego, realizaremos la predicción de [CDS](https://www.uniprot.org/help/cds_protein_definition) a partir de los ensambles con la herramienta:
 - [Prodigal](https://github.com/hyattpd/prodigal/wiki)
+4. Anotación:
+  
+- Los péptidos predichos con Prodigal, se les asignará función putativa con el programa [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) y la base de datos [Swiss-Prot](https://www.uniprot.org/statistics/Swiss-Prot).
 
-Finalmente, a los péptidos predichos con Prodigal, se les asignará función putativa con el programa [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) y la base de datos [Swiss-Prot](https://www.uniprot.org/statistics/Swiss-Prot).
+- Finalmente, utilizaremos una herramienta que combina diferentes bases de datos para la anotación basado en los "_[Cluster of Orthologous Groups]_(https://www.ncbi.nlm.nih.gov/research/cog)", esta herramienta utiliza la base de datos _ponche de huevo_ por "[_eggNOG_](https://academic.oup.com/nar/article/47/D1/D309/5173662)" ([web](http://eggnog5.embl.de/))  y se llama [`eggnog-mapper`](https://github.com/eggnogdb/eggnog-mapper) 
+
 
 #### Input de datos:
 
@@ -52,7 +60,7 @@ Si están en `Linux/MacOS` o `Windows 10`, puede utilizar la terminal (consola),
 
 Una vez abierta la terminal, cada grupo debe escribir lo siguiente:
 
-	 ssh  usuarioN@servidor
+	 ssh  grupoN@servidor
 
 Si están en Windows (anterior a Windows 10) deben instalar un programa llamado [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html). 
 
@@ -66,11 +74,7 @@ ser reemplazada por el número del grupo que fue asignado.
 Al conectarnos al servidor, entramos directamente al directorio home.
 De acá nos tendremos que mover a nuestra carpeta de trabajo donde estan alojadas las secuencias:
 
-	cd /mnt/biostore/curso/data/
-
-Reemplazar N por el número de su grupo:
-
-	cp * /mnt/biostore/curso/userN/
+	cd readsgN
 
 En este directorio están los archivos de lecturas de secuenciación que se le
 asigno a cada grupo. 
@@ -78,11 +82,16 @@ asigno a cada grupo.
 Para poder ver estos archivos debemos escribir lo siguiente:
 
 	ls
-Ahora, sobre cada archivo de secuencia debera ejecutar el siguiente comando:
+Ahora, sobre cada archivo de secuencia Illumina deberá ejecutar el siguiente comando:
 
 	fastqc -t 4 nombre_archivo.fastq
 	
-Donde `nombre_archivo` corresponde a un archivo de secuenciación.
+Donde `nombre_archivo` corresponde a los archivos de la secuenciación por Illumina.
+
+Sobre los archivos pacbio deberá ejecutar:
+
+	python /opt/PythonCurso/LongQC/longQC.py sampleqc --ncpu 8 -m 2 -o pacbioLongQC -x pb-rs2   pacbio.fastq
+	
   
 
 ## Ensamble de Genomas:
@@ -104,12 +113,12 @@ de que nos desconectaramos de internet/red, perderíamos lo que llevamos
 ejecutando. Una solución a este problema es el comando [screen](https://linux.die.net/man/1/screen).
 
 
-		screen -S btN_canu
+		screen -S grupoN_canu
 
-Luego, Ejecutamos el comando [canu](https://canu.readthedocs.io/en/latest/tutorial.html) de `Canu` para ensamblar:
+Luego, Ejecutamos el comando [canu](https://canu.readthedocs.io/en/latest/tutorial.html) de `Canu` para ensamblar, trate de estimar el tamaño del genoma, por defecto puse `5m` (5 megabases):
 
 
-		canu -d canu_btN -p btN genomeSize=5m -pacbio-raw pacbio.fastq
+		canu -d canu_grupoN -p grupoN genomeSize=5m -pacbio-raw pacbio.fastq
 
 
 Para cerrar la consola sin matar el proceso, tecleamos `Ctrl`+ `a` + `d`. 
@@ -117,7 +126,7 @@ Para cerrar la consola sin matar el proceso, tecleamos `Ctrl`+ `a` + `d`.
 Si queremos recuperar la consola donde lanzamos el programa 
 escribimos lo siguiente:
 
-		screen -r btN_canu
+		screen -r grupoN_canu
 		
 		
 Para salir nuevamente tecleamos `Ctrl`+ `a` + `d` 
@@ -134,18 +143,18 @@ Crearemos un `screen ` para spades:
 		
  Luego dentro del screen ejecutamos:
  
-  	spades -o spades_btN -t 16 -k21,33,43,55,65,77,87,99 -1 il_1.fastq -2 il_2.fastq --pacbio pacbio.fastq 
+  	spades -o spades_grupoN -t 16 -k21,33,43,55,65,77,87,99 -1 il_1.fastq -2 il_2.fastq --pacbio pacbio.fastq 
 	
 
-Donde N es su grupo /mnt/biostore/curso/userN/
+Donde N es su grupo 
 
 ### Revisar los ensambles:
 
-El ensamble de SPAdes si ha seguido el tutorial, debería estar en la carpeta `spades_btN`:
+El ensamble de SPAdes si ha seguido el tutorial, debería estar en la carpeta `spades_grupoN`:
 
   entramos a la carpeta del resultado, path absoluto:
   
-  	cd /mnt/curso/userN/spades_userN
+  	cd spades_grupoN
 	
 dentro podremos ubicar un archivo fasta llamado scaffolds, lo abriremos y con la barra de espacio lo recorremos:
 
@@ -165,25 +174,32 @@ o para saber el número de scaffolds
 Podemos hacer lo mismo una vez que haya terminado el ensamblador canu
 
 
-Nos dirigimos a `/mnt/biostore/curso/userN/btN/canu_btN/btN` 
+Nos dirigimos a `canu_grupoN/grupoN` 
 
-	cd /mnt/biostore/curso/userN/canu_btN/btN
+	cd canu_grupoN/grupoN
 
 Recuerde reemplazar las N por el número de su grupo.
 
 dentro podremos ubicar un archivo fasta llamado `btN.contigs.fasta`, lo abriremos y con la barra de espacio lo recorremos:
 
-	less btN.contigs.fasta
+	less grupoN.contigs.fasta
 
 Apretamos `q` para salir de less.
 	
   También podemos hacer un `grep` 
 
-	grep ">" btN.contigs.fasta
+	grep ">" grupoN.contigs.fasta
 	
 o para saber el número de scaffolds 
 
-	grep -c ">" btN.contigs.fasta
+	grep -c ">" grupoN.contigs.fasta
 
+ Utilizaremos el programa `assembly-stats` para obtener estadísticas de nuestros ensambles:
+
+ 	assembly-stats -l 1000 -t grupoN.contigs.fasta
+
+Ahora vaya a la carpeta de spades y ejecute:
+
+  	assembly stats -l 1000 -t scaffolds.fasta
+   
 ¿Existen diferencias entre los ensambles?
-
