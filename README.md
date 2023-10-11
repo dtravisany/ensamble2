@@ -31,7 +31,7 @@ Luego, realizaremos la predicción de [CDS](https://www.uniprot.org/help/cds_pro
   
 - Los péptidos predichos con Prodigal, se les asignará función putativa con el programa [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) y la base de datos [Swiss-Prot](https://www.uniprot.org/statistics/Swiss-Prot).
 
-- Finalmente, utilizaremos una herramienta que combina diferentes bases de datos para la anotación basado en los "_[Cluster of Orthologous Groups]_(https://www.ncbi.nlm.nih.gov/research/cog)", esta herramienta utiliza la base de datos _ponche de huevo_ por "[_eggNOG_](https://academic.oup.com/nar/article/47/D1/D309/5173662)" ([web](http://eggnog5.embl.de/))  y se llama [`eggnog-mapper`](https://github.com/eggnogdb/eggnog-mapper) 
+- Finalmente, utilizaremos una herramienta que combina diferentes bases de datos para la anotación basado en los "[_Cluster of Orthologous Groups_](https://www.ncbi.nlm.nih.gov/research/cog)", esta herramienta utiliza la base de datos _ponche de huevo_ por "[_eggNOG_](https://academic.oup.com/nar/article/47/D1/D309/5173662)" ([web](http://eggnog5.embl.de/))  y se llama [`eggnog-mapper`](https://github.com/eggnogdb/eggnog-mapper) 
 
 
 #### Input de datos:
