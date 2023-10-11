@@ -12,26 +12,28 @@ En este práctico vamos a correr la revisión de unos reads secuenciados mediant
 ### Software
  1. Quality Check:
   
-- [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
-- [LongQC](https://github.com/yfukasawa/LongQC)
+   - [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+   - [LongQC](https://github.com/yfukasawa/LongQC)
 
-  2. Ensamble:
+ 2. Ensamble:
 
-- [Canu](https://canu.readthedocs.io/en/latest/)
-- [Spades](https://cab.spbu.ru/software/spades/). 
+  - [Canu](https://canu.readthedocs.io/en/latest/)
+  - [Spades](https://cab.spbu.ru/software/spades/). 
 
-  2.1 Revisión Ensamble:
--[assembly-stats](https://github.com/sanger-pathogens/assembly-stats)
+2.1 Revisión Ensamble:
+
+  -[assembly-stats](https://github.com/sanger-pathogens/assembly-stats)
+
+Luego, realizaremos la predicción de [CDS](https://www.uniprot.org/help/cds_protein_definition) a partir de los ensambles con la herramienta:
 
   3. Predicción:
 
-Luego, realizaremos la predicción de [CDS](https://www.uniprot.org/help/cds_protein_definition) a partir de los ensambles con la herramienta:
-- [Prodigal](https://github.com/hyattpd/prodigal/wiki)
+  - [Prodigal](https://github.com/hyattpd/prodigal/wiki)
 4. Anotación:
   
-- Los péptidos predichos con Prodigal, se les asignará función putativa con el programa [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) y la base de datos [Swiss-Prot](https://www.uniprot.org/statistics/Swiss-Prot).
+  - Los péptidos predichos con Prodigal, se les asignará función putativa con el programa [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) y la base de datos [Swiss-Prot](https://www.uniprot.org/statistics/Swiss-Prot).
 
-- Finalmente, utilizaremos una herramienta que combina diferentes bases de datos para la anotación basado en los "[_Cluster of Orthologous Groups_](https://www.ncbi.nlm.nih.gov/research/cog)", esta herramienta utiliza la base de datos _ponche de huevo_ por "[_eggNOG_](https://academic.oup.com/nar/article/47/D1/D309/5173662)" ([web](http://eggnog5.embl.de/))  y se llama [`eggnog-mapper`](https://github.com/eggnogdb/eggnog-mapper) 
+ - Finalmente, utilizaremos una herramienta que combina diferentes bases de datos para la anotación basado en los "[_Cluster of Orthologous Groups_](https://www.ncbi.nlm.nih.gov/research/cog)", esta herramienta utiliza la base de datos _ponche de huevo_ por "[_eggNOG_](https://academic.oup.com/nar/article/47/D1/D309/5173662)" ([web](http://eggnog5.embl.de/))  y se llama [`eggnog-mapper`](https://github.com/eggnogdb/eggnog-mapper) 
 
 
 #### Input de datos:
