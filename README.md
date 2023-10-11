@@ -55,7 +55,7 @@ Luego, realizaremos la predicción de [CDS](https://www.uniprot.org/help/cds_pro
 Conectarse al servidor.
 
 Debido a que los cálculos que realizaremos en este práctico requieren un poder de cómputo moderado, nos conectaremos a un servidor privado. 
-Si están en `Linux/MacOS` o `Windows 10`, puede utilizar la terminal (consola), en (Windows10 en el [Símbolo del sistema](https://es.wikipedia.org/wiki/S%C3%ADmbolo_del_sistema) (`cmd`).
+Si están en `Linux/MacOS` o `Windows 10`, puede utilizar la terminal (consola), en (Windows10 en el [Símbolo del sistema](https://es.wikipedia.org/wiki/S%C3%ADmbolo_del_sistema) `cmd`).
 
 
 Una vez abierta la terminal, cada grupo debe escribir lo siguiente:
