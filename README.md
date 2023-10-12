@@ -110,7 +110,7 @@ Fue el encargado de ensamblar proyectos emblematicos como el genoma humano, actu
 Debido a que el proceso de ensamblar lecturas utilizando OLC puede tomar un tiempo prolongado,
 ejecutar el comando de ensamble de la manera habitual es inconveniente, ya que si
 cerramos la ventana de la consola, el proceso terminará también, por ende,
-tendríamos que esperar que el ensamble terminara para cerrar la consola. En el caso/mnt/biostore/curso/data/
+tendríamos que esperar que el ensamble terminara para cerrar la consola. En el caso
 de que nos desconectaramos de internet/red, perderíamos lo que llevamos
 ejecutando. Una solución a este problema es el comando [screen](https://linux.die.net/man/1/screen).
 
