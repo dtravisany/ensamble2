@@ -46,8 +46,8 @@ Luego, realizaremos la predicción de [CDS](https://www.uniprot.org/help/cds_pro
  
 ## Objetivos del Práctico: 
 
-- Familiarizarse con los conceptos de ensamble, prediccón y anotación.
-- Conocer el funcionamiento de herramientas bioinformáticas de ensamble, predicción y/mnt/biostore/curso/data/ anotación.
+- Familiarizarse con los conceptos de ensamble, predicción y anotación.
+- Conocer el funcionamiento de herramientas bioinformáticas de ensamble, predicción y anotación.
 - Utilizar los servidores de blast.
 - Adquirir práctica en entorno Unix. 
 
