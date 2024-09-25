@@ -42,7 +42,7 @@ Luego, realizaremos la predicción de [CDS](https://www.uniprot.org/help/cds_pro
 
 - il_1 e il_2: [Librería Paired End](https://www.illumina.com/science/technology/next-generation-sequencing/plan-experiments/paired-end-vs-single-read.html).
 
-- Pacbio: [Secuencias Pacbio](https://www.pacb.com/products-and-services/sequel-system/) Utilizaremos secuencias largas para ensamblar con Canu.
+- long: Utilizaremos secuencias largas para ensamblar con Canu, pueden revisar el tipo de secuencia en [este archivo](https://docs.google.com/spreadsheets/d/1ZGyQLNEZHWMnDa9r0mFZvZxzRa1nnAPsVIAY_qEfj5s/edit?usp=sharing).
  
 ## Objetivos del Práctico: 
 
