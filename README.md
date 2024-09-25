@@ -62,21 +62,19 @@ Si están en `Linux/MacOS` o `Windows 10`, puede utilizar la terminal (consola),
 
 Una vez abierta la terminal, cada grupo debe escribir lo siguiente:
 
-	 ssh  grupoN@servidor
-
+	 ssh  <usuario>@<servidor>
+Donde `<usuario>`: es el nombre de usuario asignado y `<servidor>`: es el server donde conectarán.
 Si están en Windows (anterior a Windows 10) deben instalar un programa llamado [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html). 
 
 
 Las credenciales ya fueron entregadas. 
-En el nombre de usuario y la contraseña, la `N` debe
-ser reemplazada por el número del grupo que fue asignado.
 
 #### Nombre de las carpetas:
 
 Al conectarnos al servidor, entramos directamente al directorio home.
 De acá nos tendremos que mover a nuestra carpeta de trabajo donde estan alojadas las secuencias:
 
-	cd readsgN
+	cd /opt/reads/gNreads
 
 En este directorio están los archivos de lecturas de secuenciación que se le
 asigno a cada grupo. 
@@ -92,9 +90,9 @@ Donde `nombre_archivo` corresponde a los archivos de la secuenciación por Illum
 
 Sobre los archivos pacbio deberá ejecutar:
 
-	python /opt/PythonCurso/LongQC/longQC.py sampleqc --ncpu 8 -m 2 -o pacbioLongQC -x pb-rs2   pacbio.fastq
+	longQC.py sampleqc --ncpu 8 -m 2 -o <tipoSecuenciaLong> -x pb-rs2   long.fastq
 	
-  
+  Donde `<tipoSecuenciaLong>` corresponde a la tecnología de secuenciación utilizada en su archivo long.fastq.
 
 ## Ensamble de Genomas:
 
@@ -202,6 +200,6 @@ o para saber el número de scaffolds
 
 Ahora vaya a la carpeta de spades y ejecute:
 
-  	assembly stats -l 1000 -t scaffolds.fasta
+  	assembly-stats -l 1000 -t scaffolds.fasta
    
 ¿Existen diferencias entre los ensambles?
