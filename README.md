@@ -4,7 +4,7 @@ Práctico de Ensamble
 
 ## Resumen
 
-En este práctico vamos a correr la revisión de unos reads secuenciados mediante dos plataformas de secuenciación Illumina y PacBio y luego utilizaremos dos ensambladores para realizar ensambles de los reads y obtener el genoma bacteriano, revisaremos las diversas métricas de ensamble y evaluaremos la calidad de un ensamble `de novo` utilizando los dos paradigmas más empleados en ensamble. A cada ensamble le realizaremos la predicción y posterior anotación de los genes.
+En este práctico vamos a correr la revisión de unos reads secuenciados mediante dos plataformas de secuenciación Illumina/ BGI y PacBio / ONT y luego utilizaremos dos ensambladores para realizar ensambles de los reads y obtener el genoma bacteriano, revisaremos las diversas métricas de ensamble y evaluaremos la calidad de un ensamble `de novo` utilizando los dos paradigmas más empleados en ensamble. A cada ensamble le realizaremos la predicción y posterior anotación de los genes.
 
 
 ## Materiales
