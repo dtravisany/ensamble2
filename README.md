@@ -90,7 +90,7 @@ Donde `nombre_archivo` corresponde a los archivos de la secuenciación por Illum
 
 Sobre los archivos pacbio deberá ejecutar:
 
-	longQC.py sampleqc --ncpu 8 -m 2 -o <tipoSecuenciaLong> -x pb-rs2   long.fastq
+	longQC.py sampleqc --ncpu 8 -m 2 -o longqc.out -x <tipoSecuenciaLong>   long.fastq
 	
   Donde `<tipoSecuenciaLong>` corresponde a la tecnología de secuenciación utilizada en su archivo long.fastq.
 
