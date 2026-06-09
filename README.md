@@ -38,7 +38,7 @@ En este práctico vamos a correr la revisión de unos reads secuenciados mediant
 
 - il_1 e il_2: [Librería Paired End](https://www.illumina.com/science/technology/next-generation-sequencing/plan-experiments/paired-end-vs-single-read.html).
 
-- long: secuencias largas (`long.fastq.gz`) que usaremos para ensamblar con Canu y como apoyo en el ensamble híbrido de SPAdes. Pueden revisar el tipo de secuencia (PacBio u ONT) en [este archivo](https://docs.google.com/spreadsheets/d/1ZGyQLNEZHWMnDa9r0mFZvZxzRa1nnAPsVIAY_qEfj5s/edit?usp=sharing).
+- long: secuencias largas (`long.fastq.gz`) que usaremos para ensamblar con Canu y como apoyo en el ensamble híbrido de SPAdes. La plataforma (PacBio u ONT) y el tamaño esperado del genoma (que usará como `genomeSize` en Canu) dependen de su grupo; revíselos en el [spreadsheet](https://docs.google.com/spreadsheets/d/1HP2TfoxcmBl-TwxHpX23sIos2gvQJ49G9DR7O-qrMPk/edit?gid=0#gid=0).
  
 ## Objetivos del Práctico: 
 
@@ -68,9 +68,9 @@ Las credenciales ya fueron entregadas.
 #### Nombre de las carpetas:
 
 Al conectarnos al servidor, entramos directamente al directorio home.
-De acá nos tendremos que mover a nuestra carpeta de trabajo donde estan alojadas las secuencias:
+De acá nos tendremos que mover a la carpeta `reads`, donde están alojadas las secuencias de su grupo:
 
-	cd /opt/reads/gNreads
+	cd ~/reads
 
 En este directorio están los archivos de lecturas de secuenciación que se le
 asigno a cada grupo. 
@@ -98,7 +98,7 @@ Sobre el archivo de lecturas largas deberá ejecutar LongQC. Como está en otro 
 	longQC.py sampleqc --ncpu 8 -m 2 -o longqc.out -x <tipoSecuenciaLong>   long.fastq.gz
 	mamba activate bioinfo2026
 	
-  Donde `<tipoSecuenciaLong>` corresponde a la tecnología de secuenciación utilizada en su archivo `long.fastq.gz` (revísela en el [spreadsheet](https://docs.google.com/spreadsheets/d/1ZGyQLNEZHWMnDa9r0mFZvZxzRa1nnAPsVIAY_qEfj5s/edit?usp=sharing) y use el preset correspondiente: `pb-rs2` para PacBio RS o `pb-sequel` para PacBio Sequel/Sequel II —incluido HiFi, ya que LongQC no tiene preset propio para HiFi—; `ont-ligation` o `ont-rapid` para Nanopore según el kit).
+  Donde `<tipoSecuenciaLong>` corresponde a la tecnología de secuenciación utilizada en su archivo `long.fastq.gz` (revísela en el [spreadsheet](https://docs.google.com/spreadsheets/d/1HP2TfoxcmBl-TwxHpX23sIos2gvQJ49G9DR7O-qrMPk/edit?gid=0#gid=0) y use el preset correspondiente: `pb-rs2` para PacBio RS o `pb-sequel` para PacBio Sequel/Sequel II —incluido HiFi, ya que LongQC no tiene preset propio para HiFi—; `ont-ligation` o `ont-rapid` para Nanopore según el kit).
 
 ## Trimming y filtrado de lecturas
 
@@ -141,7 +141,7 @@ ejecutando. Una solución a este problema es el comando [screen](https://linux.d
 
 		screen -S grupoN_canu
 
-Luego, Ejecutamos el comando [canu](https://canu.readthedocs.io/en/latest/tutorial.html) de `Canu` para ensamblar. Canu necesita un tamaño aproximado del genoma (`genomeSize`) para estimar la cobertura: **no tiene que ser exacto**, basta con el tamaño esperado de su organismo, que encontrará en la columna **`tamaño esperado`** del [spreadsheet](https://docs.google.com/spreadsheets/d/1ZGyQLNEZHWMnDa9r0mFZvZxzRa1nnAPsVIAY_qEfj5s/edit?usp=sharing).
+Luego, Ejecutamos el comando [canu](https://canu.readthedocs.io/en/latest/tutorial.html) de `Canu` para ensamblar. Canu necesita un tamaño aproximado del genoma (`genomeSize`) para estimar la cobertura: **no tiene que ser exacto**, basta con el tamaño esperado de su organismo, que encontrará en la columna **`tamaño esperado`** del [spreadsheet](https://docs.google.com/spreadsheets/d/1HP2TfoxcmBl-TwxHpX23sIos2gvQJ49G9DR7O-qrMPk/edit?gid=0#gid=0).
 
 El flag de la tecnología depende del tipo de lectura larga que le tocó (misma planilla). En Canu 2.x use `-pacbio` si son lecturas PacBio CLR, `-pacbio-hifi` si son HiFi, o `-nanopore` si son Oxford Nanopore (las antiguas `-pacbio-raw`/`-nanopore-raw` ya no se usan):
 
