@@ -1,0 +1,11 @@
+grupo,plataforma,tamaño esperado
+1,ONT (MinION),4.6m
+2,ONT (GridION),2.8m
+3,PacBio CLR (Sequel),5.2m
+4,ONT (GridION),6.3m
+5,PacBio HiFi (Sequel IIe),4.3m
+6,ONT (MinION),9m
+7,PacBio (Sequel) — ¿CLR o HiFi?,4m
+8,ONT (MinION),2.2m
+9,ONT (GridION),4.2m
+10,ONT (MinION),1.7m
