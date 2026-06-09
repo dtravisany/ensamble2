@@ -13,7 +13,7 @@ En este práctico vamos a correr la revisión de unos reads secuenciados mediant
  1. Quality Check:
   
    - [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
-   - [LongQC](https://github.com/yfukasawa/LongQC)
+   - [NanoPlot](https://github.com/wdecoster/NanoPlot)
 
  2. Trimming y filtrado:
 
@@ -43,7 +43,7 @@ En este práctico vamos a correr la revisión de unos reads secuenciados mediant
 ## Objetivos del Práctico: 
 
 - Familiarizarse con los conceptos de ensamble de novo y evaluación de la calidad de ensambles.
-- Conocer el funcionamiento de herramientas bioinformáticas de control de calidad y ensamble (FastQC, LongQC, Canu, SPAdes, assembly-stats).
+- Conocer el funcionamiento de herramientas bioinformáticas de control de calidad y ensamble (FastQC, NanoPlot, Canu, SPAdes, assembly-stats).
 - Comparar los dos paradigmas de ensamble (OLC vs grafo de Bruijn) sobre datos reales.
 - Adquirir práctica en entorno Unix. 
 
@@ -80,11 +80,11 @@ Para poder ver estos archivos debemos escribir lo siguiente:
 	ls
 Los archivos vienen comprimidos (`.fastq.gz`); todas las herramientas de este práctico los aceptan así, no es necesario descomprimirlos.
 
-**Entornos `conda`:** todas las herramientas del práctico están instaladas en el entorno **`bioinfo2026`**, salvo **LongQC**, que está en su propio entorno **`longqc`**. Active el entorno principal antes de empezar:
+**Entornos `conda`:** todas las herramientas del práctico están instaladas en el entorno **`bioinfo2026`**, salvo **NanoPlot**, que está en su propio entorno **`nanoplot`**. Active el entorno principal antes de empezar:
 
 	mamba activate bioinfo2026
 
-Solo deberá cambiarse al entorno `longqc` para el paso de LongQC (se indica más abajo) y luego volver a `bioinfo2026`.
+Solo deberá cambiarse al entorno `nanoplot` para el paso de QC de lecturas largas (se indica más abajo) y luego volver a `bioinfo2026`.
 
 Ahora, sobre los dos archivos de secuencia Illumina deberá ejecutar el siguiente comando:
 
@@ -92,13 +92,13 @@ Ahora, sobre los dos archivos de secuencia Illumina deberá ejecutar el siguient
 	
 Donde `il_1.fastq.gz` e `il_2.fastq.gz` corresponden a las lecturas Paired End de Illumina.
 
-Sobre el archivo de lecturas largas deberá ejecutar LongQC. Como está en otro entorno, primero actívelo y, al terminar, vuelva al entorno principal:
+Sobre el archivo de lecturas largas deberá ejecutar NanoPlot. Como está en otro entorno, primero actívelo y, al terminar, vuelva al entorno principal:
 
-	mamba activate longqc
-	longQC.py sampleqc --ncpu 8 -m 2 -o longqc.out -x <tipoSecuenciaLong>   long.fastq.gz
+	mamba activate nanoplot
+	NanoPlot -t 8 --fastq long.fastq.gz -o nanoplot.out
 	mamba activate bioinfo2026
-	
-  Donde `<tipoSecuenciaLong>` corresponde a la tecnología de secuenciación utilizada en su archivo `long.fastq.gz` (revísela en el [spreadsheet](https://docs.google.com/spreadsheets/d/1HP2TfoxcmBl-TwxHpX23sIos2gvQJ49G9DR7O-qrMPk/edit?gid=0#gid=0) y use el preset correspondiente: `pb-rs2` para PacBio RS o `pb-sequel` para PacBio Sequel/Sequel II —incluido HiFi, ya que LongQC no tiene preset propio para HiFi—; `ont-ligation` o `ont-rapid` para Nanopore según el kit).
+
+NanoPlot funciona igual para PacBio y para Nanopore (no necesita indicar la tecnología ni un preset). Genera un reporte en `nanoplot.out/NanoPlot-report.html` con la distribución de largos de lectura, la calidad (Q) y el N50 de sus lecturas largas.
 
 ## Trimming y filtrado de lecturas
 
