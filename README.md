@@ -195,6 +195,14 @@ Crearemos un `screen ` para spades:
 
 		screen -S grupoN_ini_spades
 		
+Ahora cargamos el ambiente mamba con
+
+		eval "$(mamba shell hook --shell bash)"
+		
+y luego:
+
+		mamba activate bioinfo2026	
+		
  Luego dentro del screen ejecutamos:
  
   	spades.py -o spades_grupoN_ini -t 16 -k 21,33,43,55,65,77,87,99 -1 il_1.trim.fastq.gz -2 il_2.trim.fastq.gz --nanopore long.filt.fastq.gz
