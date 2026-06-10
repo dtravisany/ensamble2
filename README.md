@@ -157,6 +157,14 @@ ejecutando. Una solución a este problema es el comando [screen](https://linux.d
 
 		screen -S grupoN_ini_canu
 
+Ahora cargamos el ambiente mamba con
+
+		eval "$(mamba shell hook --shell bash)"
+		
+y luego:
+
+		mamba activate bioinfo2026
+
 Luego, Ejecutamos el comando [canu](https://canu.readthedocs.io/en/latest/tutorial.html) de `Canu` para ensamblar. Canu necesita un tamaño aproximado del genoma (`genomeSize`) para estimar la cobertura: **no tiene que ser exacto**, basta con el tamaño esperado de su organismo, que encontrará en la columna **`tamaño esperado`** del [spreadsheet](https://docs.google.com/spreadsheets/d/1HP2TfoxcmBl-TwxHpX23sIos2gvQJ49G9DR7O-qrMPk/edit?gid=0#gid=0).
 
 El flag de la tecnología depende del tipo de lectura larga que le tocó (misma planilla). En Canu 2.x use `-pacbio` si son lecturas PacBio CLR, `-pacbio-hifi` si son HiFi, o `-nanopore` si son Oxford Nanopore (las antiguas `-pacbio-raw`/`-nanopore-raw` ya no se usan):
