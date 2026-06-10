@@ -100,6 +100,20 @@ Sobre el archivo de lecturas largas deberá ejecutar NanoPlot. Como está en otr
 
 NanoPlot funciona igual para PacBio y para Nanopore (no necesita indicar la tecnología ni un preset). Genera un reporte en `nanoplot.out/NanoPlot-report.html` con la distribución de largos de lectura, la calidad (Q) y el N50 de sus lecturas largas.
 
+#### Descargar los reportes a su computador:
+
+Los reportes de **FastQC** (`il_1_fastqc.html`, `il_2_fastqc.html`) y de **NanoPlot** (`nanoplot.out/NanoPlot-report.html`) son archivos HTML que se abren en un navegador, pero están en el servidor. Para verlos hay que copiarlos a su computador con `scp`.
+
+**Importante:** `scp` se ejecuta desde una terminal de **su propio computador**, NO desde la sesión conectada al servidor. Abra una terminal nueva (sin `ssh`), ubíquese en la carpeta donde quiera guardar los archivos y ejecute:
+
+	# Reportes de FastQC (las dos lecturas Illumina)
+	scp <usuario>@<servidor>:"~/reads/*_fastqc.html" .
+
+	# Reporte de NanoPlot (carpeta completa)
+	scp -r <usuario>@<servidor>:~/reads/nanoplot.out .
+
+Reemplace `<usuario>` y `<servidor>` por los mismos datos con los que se conectó por `ssh`. Le pedirá su contraseña, y al terminar abra los archivos `.html` con doble clic. El mismo procedimiento sirve para el reporte de fastp (`fastp_grupoN.html`) que generará en el siguiente paso. (En Windows con Putty, use `pscp` con la misma sintaxis.)
+
 ## Trimming y filtrado de lecturas
 
 Antes de ensamblar conviene limpiar las lecturas: recortar adaptadores y bases de baja calidad en las cortas, y descartar las lecturas largas más cortas o de peor calidad. Esto reduce las sub-estructuras del grafo (tips, bubbles, arcos espurios) y mejora el ensamble, tal como vimos en la teoría.
