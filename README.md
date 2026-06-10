@@ -145,6 +145,8 @@ Fue el encargado de ensamblar proyectos emblematicos como el genoma humano, actu
 
 #### Ensamblar las lecturas:
 
+> **Etiqueta personal `grupoN_ini`:** como los integrantes de un grupo comparten la misma cuenta, cada uno usará su propia etiqueta para no sobrescribir el ensamble de otro. En todos los comandos siguientes, reemplace `grupoN_ini` por su número de grupo y sus iniciales — por ejemplo, **Víctor Rojas del grupo 3** usaría **`grupo3_vr`**. Así cada integrante corre su propio `screen` y genera su propia carpeta de ensamble. (Las lecturas limpias `il_*.trim.fastq.gz` y `long.filt.fastq.gz` del paso anterior son compartidas: se generan una sola vez por grupo.)
+
 Debido a que el proceso de ensamblar lecturas utilizando OLC puede tomar un tiempo prolongado,
 ejecutar el comando de ensamble de la manera habitual es inconveniente, ya que si
 cerramos la ventana de la consola, el proceso terminará también, por ende,
@@ -153,14 +155,14 @@ de que nos desconectaramos de internet/red, perderíamos lo que llevamos
 ejecutando. Una solución a este problema es el comando [screen](https://linux.die.net/man/1/screen).
 
 
-		screen -S grupoN_canu
+		screen -S grupoN_ini_canu
 
 Luego, Ejecutamos el comando [canu](https://canu.readthedocs.io/en/latest/tutorial.html) de `Canu` para ensamblar. Canu necesita un tamaño aproximado del genoma (`genomeSize`) para estimar la cobertura: **no tiene que ser exacto**, basta con el tamaño esperado de su organismo, que encontrará en la columna **`tamaño esperado`** del [spreadsheet](https://docs.google.com/spreadsheets/d/1HP2TfoxcmBl-TwxHpX23sIos2gvQJ49G9DR7O-qrMPk/edit?gid=0#gid=0).
 
 El flag de la tecnología depende del tipo de lectura larga que le tocó (misma planilla). En Canu 2.x use `-pacbio` si son lecturas PacBio CLR, `-pacbio-hifi` si son HiFi, o `-nanopore` si son Oxford Nanopore (las antiguas `-pacbio-raw`/`-nanopore-raw` ya no se usan):
 
 
-		canu -d canu_grupoN -p grupoN genomeSize=<tamañoEsperado> -nanopore long.filt.fastq.gz
+		canu -d canu_grupoN_ini -p grupoN_ini genomeSize=<tamañoEsperado> -nanopore long.filt.fastq.gz
 
 Reemplace `<tamañoEsperado>` por el valor de la planilla (p. ej. `4.6m`, `9m`) y `-nanopore` por `-pacbio` o `-pacbio-hifi` según corresponda a su tipo de lectura larga. Note que usamos `long.filt.fastq.gz`, el archivo ya filtrado con `filtlong`.
 
@@ -170,7 +172,7 @@ Para cerrar la consola sin matar el proceso, tecleamos `Ctrl`+ `a` + `d`.
 Si queremos recuperar la consola donde lanzamos el programa 
 escribimos lo siguiente:
 
-		screen -r grupoN_canu
+		screen -r grupoN_ini_canu
 		
 		
 Para salir nuevamente tecleamos `Ctrl`+ `a` + `d` 
@@ -183,22 +185,22 @@ SPAdes se ejecuta relativamente rápido, así que dependiendo de sus lecturas as
 
 Crearemos un `screen ` para spades:
 
-		screen -S spades
+		screen -S grupoN_ini_spades
 		
  Luego dentro del screen ejecutamos:
  
-  	spades.py -o spades_grupoN -t 16 -k 21,33,43,55,65,77,87,99 -1 il_1.trim.fastq.gz -2 il_2.trim.fastq.gz --nanopore long.filt.fastq.gz
+  	spades.py -o spades_grupoN_ini -t 16 -k 21,33,43,55,65,77,87,99 -1 il_1.trim.fastq.gz -2 il_2.trim.fastq.gz --nanopore long.filt.fastq.gz
 	
 
-Donde N es su grupo. El ejecutable es `spades.py` y usamos las lecturas ya limpias (`il_1.trim.fastq.gz`, `il_2.trim.fastq.gz`, `long.filt.fastq.gz`). Igual que en Canu, el flag de las lecturas largas depende de su tecnología: use `--pacbio` si son PacBio o `--nanopore` si son Oxford Nanopore. Recuerde que los `k` deben ser impares y menores que el largo de sus reads Illumina.
+Use su misma etiqueta personal `grupoN_ini` que en Canu. El ejecutable es `spades.py` y usamos las lecturas ya limpias (`il_1.trim.fastq.gz`, `il_2.trim.fastq.gz`, `long.filt.fastq.gz`). Igual que en Canu, el flag de las lecturas largas depende de su tecnología: use `--pacbio` si son PacBio o `--nanopore` si son Oxford Nanopore. Recuerde que los `k` deben ser impares y menores que el largo de sus reads Illumina.
 
 ### Revisar los ensambles:
 
-El ensamble de SPAdes si ha seguido el tutorial, debería estar en la carpeta `spades_grupoN`:
+El ensamble de SPAdes si ha seguido el tutorial, debería estar en la carpeta `spades_grupoN_ini`:
 
   entramos a la carpeta del resultado, path absoluto:
   
-  	cd spades_grupoN
+  	cd spades_grupoN_ini
 	
 dentro podremos ubicar un archivo fasta llamado scaffolds, lo abriremos y con la barra de espacio lo recorremos:
 
@@ -218,29 +220,29 @@ o para saber el número de scaffolds
 Podemos hacer lo mismo una vez que haya terminado el ensamblador canu
 
 
-Nos dirigimos a `canu_grupoN/grupoN` 
+Nos dirigimos a `canu_grupoN_ini/grupoN_ini` 
 
-	cd canu_grupoN/grupoN
+	cd canu_grupoN_ini/grupoN_ini
 
-Recuerde reemplazar las N por el número de su grupo.
+Recuerde usar su etiqueta personal `grupoN_ini` (número de grupo + sus iniciales).
 
-dentro podremos ubicar un archivo fasta llamado `grupoN.contigs.fasta`, lo abriremos y con la barra de espacio lo recorremos:
+dentro podremos ubicar un archivo fasta llamado `grupoN_ini.contigs.fasta`, lo abriremos y con la barra de espacio lo recorremos:
 
-	less grupoN.contigs.fasta
+	less grupoN_ini.contigs.fasta
 
 Apretamos `q` para salir de less.
 	
   También podemos hacer un `grep` 
 
-	grep ">" grupoN.contigs.fasta
+	grep ">" grupoN_ini.contigs.fasta
 	
 o para saber el número de contigs 
 
-	grep -c ">" grupoN.contigs.fasta
+	grep -c ">" grupoN_ini.contigs.fasta
 
  Utilizaremos el programa `assembly-stats` para obtener estadísticas de nuestros ensambles:
 
- 	assembly-stats -l 1000 -t grupoN.contigs.fasta
+ 	assembly-stats -l 1000 -t grupoN_ini.contigs.fasta
 
 Ahora vaya a la carpeta de spades y ejecute:
 
